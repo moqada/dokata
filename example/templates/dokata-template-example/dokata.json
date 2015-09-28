@@ -1,0 +1,21 @@
+{
+  "questions": [{
+    "type": "input",
+    "name": "projectName",
+    "message": "name"
+  }, {
+    "type": "input",
+    "name": "projectDescription",
+    "message": "description"
+  }, {
+    "type": "input",
+    "name": "projectAuthor",
+    "message": "author",
+    "default": "moqada <moqada@gmail.com>"
+  }, {
+    "type": "input",
+    "name": "projectLicense",
+    "message": "license",
+    "default": "MIT"
+  }]
+}

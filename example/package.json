@@ -1,0 +1,13 @@
+{
+  "name": "example",
+  "version": "0.0.0",
+  "description": "example test",
+  "scripts": {
+    "dokata": "dokata"
+  },
+  "author": "moqada <moqada@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dokata": "file:.."
+  }
+}

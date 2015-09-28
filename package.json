@@ -1,0 +1,52 @@
+{
+  "name": "dokata",
+  "description": "Project boilerplate generator",
+  "version": "0.0.0",
+  "author": "moqada <moqada@gmail.com>",
+  "bin": {
+    "dokata": "lib/cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/moqada/dokata/issues"
+  },
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "debug": "^2.2.0",
+    "ejs": "^2.3.4",
+    "fs-extra": "^0.24.0",
+    "inquirer": "^0.10.1",
+    "walk": "^2.3.9",
+    "yargs": "^3.26.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "babel-runtime": "^5.8.25",
+    "eslint": "^1.5.1",
+    "eslint-config-moqada": "^4.1.2"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "cli",
+    "console",
+    "generator",
+    "project",
+    "terminal"
+  ],
+  "homepage": "https://github.com/moqada/dokata#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moqada/dokata.git"
+  },
+  "scripts": {
+    "build": "rm -rf lib && babel --out-dir=lib src",
+    "example": "cd example && npm install && npm run dokata -- --help",
+    "lint": "eslint src",
+    "prepublish": "git diff --exit-code && npm run --if-present build",
+    "test": "npm run lint & npm run build && npm run example",
+    "watch": "babel --out-dir=lib --watch src"
+  }
+}
