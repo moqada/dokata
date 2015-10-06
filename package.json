@@ -30,6 +30,7 @@
   "files": [
     "lib"
   ],
+  "homepage": "https://github.com/moqada/dokata#readme",
   "keywords": [
     "cli",
     "console",
@@ -37,7 +38,6 @@
     "project",
     "terminal"
   ],
-  "homepage": "https://github.com/moqada/dokata#readme",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {
