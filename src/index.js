@@ -139,7 +139,7 @@ export default class Dokata {
         path: fp,
         name: filename
       };
-    });
+    }).filter(c => c !== null);
   }
 
   /**
