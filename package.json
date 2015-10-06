@@ -22,8 +22,8 @@
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-runtime": "^5.8.25",
-    "eslint": "^1.5.1",
-    "eslint-config-moqada": "^4.1.2"
+    "eslint": "^1.6.0",
+    "eslint-config-moqada": "^5.0.0"
   },
   "files": [
     "lib"
