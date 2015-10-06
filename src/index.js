@@ -20,12 +20,10 @@ class Generator extends EventEmitter {
    * constructor
    *
    * @param {string} baseDir base directory path
-   * @param {string} outputDir output directory path
    */
-  constructor(baseDir, outputDir) {
+  constructor(baseDir) {
     super();
     this.baseDir = baseDir;
-    this.outputDir = outputDir;
     this.templateDir = path.join(this.baseDir, TEMPLATE_DIR_NAME);
     this.context = {};
 
@@ -149,13 +147,13 @@ export default class Dokata {
    */
   createGenerator(name) {
     if (this.isPath(name)) {
-      return new Generator(path.resolve(name), path.basename(name));
+      return new Generator(path.resolve(name));
     }
     const config = this.getGeneratorConfigs().find(c => {
       return c.name === name;
     });
     if (config) {
-      return new Generator(config.name, config.path);
+      return new Generator(config.path);
     }
     return null;
   }
