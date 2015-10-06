@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 import chalk from 'chalk';
 import inquirer from 'inquirer';
+import updateNotifier from 'update-notifier';
 import yargs from 'yargs';
 
 import Dokata from './';
 import pkg from '../package.json';
+
+updateNotifier({pkg}).notify();
 
 const argv = yargs
   .usage('Usage: dokata [options] <generator_path>')

@@ -15,6 +15,7 @@
     "ejs": "^2.3.4",
     "fs-extra": "^0.24.0",
     "inquirer": "^0.10.1",
+    "update-notifier": "^0.5.0",
     "walk": "^2.3.9",
     "yargs": "^3.26.0"
   },
