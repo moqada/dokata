@@ -10,6 +10,7 @@
     "url": "https://github.com/moqada/dokata/issues"
   },
   "dependencies": {
+    "babel-runtime": "^5.8.25",
     "chalk": "^1.1.1",
     "debug": "^2.2.0",
     "ejs": "^2.3.4",
@@ -21,7 +22,6 @@
   },
   "devDependencies": {
     "babel": "^5.8.23",
-    "babel-runtime": "^5.8.25",
     "esdoc": "^0.4.0",
     "eslint": "^1.6.0",
     "eslint-config-moqada": "^5.0.0",
