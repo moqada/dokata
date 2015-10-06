@@ -10,7 +10,7 @@
     "access": null,
     "description": null,
     "lineNumber": 2,
-    "content": "#!/usr/bin/env node\nimport chalk from 'chalk';\nimport inquirer from 'inquirer';\nimport updateNotifier from 'update-notifier';\nimport yargs from 'yargs';\n\nimport Dokata from './';\nimport pkg from '../package.json';\n\nupdateNotifier({pkg}).notify();\n\nconst argv = yargs\n  .usage('Usage: dokata [options] <generator_path>')\n  .example('dokata /path/to/generator', 'extract template to current dir.')\n  .example('dokata -o /path/to/output /path/to/generator', 'extract template to output dir.')\n  .example('dokata generator_name', 'extract template to current dir (MUST: $DOKATA_TEMPLATE_DIR).')\n  .example('dokata -l', 'Listing template names (MUST: $DOKATA_TEMPLATE_DIR).')\n  .option('o', {\n    alias: 'output-dir',\n    describe: 'Set output directory path',\n    type: 'string',\n    'default': '.'\n  })\n  .option('l', {\n    alias: 'list',\n    describe: 'Listing template names'\n  })\n  .help('help')\n  .version(pkg.version)\n  .detectLocale(false)\n  .strict()\n  .wrap(null)\n  .argv;\n\n\n/**\n * Generate project\n *\n * @param {string} name generator name\n * @param {Object} options options\n */\nfunction generateProject(name, options) {\n  const dokata = new Dokata(process.env.DOKATA_TEMPLATE_DIR);\n  const generator = dokata.createGenerator(name);\n  if (generator === null) {\n    throw new Error(`Does not exist generator: ${name}`);\n  }\n  console.log(generator.config);\n  inquirer.prompt(generator.config.questions, answers => {\n    generator.updateContext(answers);\n    generator.on('create:file', filepath => {\n      console.log(`${chalk.gray('file')}:\\t${chalk.bold(filepath)}`);\n    })\n    .on('create:dir', dirpath => {\n      console.log(`${chalk.gray('dir')}:\\t${chalk.bold(dirpath)}`);\n    })\n    .on('done', () => {\n      console.log(chalk.green.bold('Success!'));\n      process.exit();\n    })\n    .execute(options.outputDir);\n  });\n}\n\n\n/**\n * List generator names\n */\nfunction listGeneratorNames() {\n  if (!process.env.DOKATA_TEMPLATE_DIR) {\n    console.error(chalk.red('Please set DOKATA_TEMPLATE_DIR'));\n    process.exit(1);\n  }\n  const dokata = new Dokata(process.env.DOKATA_TEMPLATE_DIR);\n  dokata.getGeneratorConfigs().forEach(config => console.log(config.name));\n  process.exit();\n}\n\n\n/**\n * execute\n *\n * @param {string[]} args command line arguments\n * @param {Object} options command line options\n */\nfunction execute(args, options) {\n  try {\n    if (options.list) {\n      listGeneratorNames();\n    } else if (args.length > 0) {\n      generateProject(args[0], options);\n    } else {\n      throw new Error('Please set generator name');\n    }\n  } catch (e) {\n    console.error(chalk.red(e));\n    process.exit(1);\n  }\n}\n\nexecute(argv._, argv);\n"
+    "content": "#!/usr/bin/env node\nimport chalk from 'chalk';\nimport inquirer from 'inquirer';\nimport updateNotifier from 'update-notifier';\nimport yargs from 'yargs';\n\nimport Dokata from './';\nimport pkg from '../package.json';\n\nupdateNotifier({pkg}).notify();\n\nconst argv = yargs\n  .usage('Usage: dokata [options] <generator_path>')\n  .example('dokata /path/to/generator', 'extract template to current dir.')\n  .example('dokata -o /path/to/output /path/to/generator', 'extract template to output dir.')\n  .example('dokata generator_name', 'extract template to current dir (MUST: $DOKATA_TEMPLATE_DIR).')\n  .example('dokata -l', 'Listing template names (MUST: $DOKATA_TEMPLATE_DIR).')\n  .option('o', {\n    alias: 'output-dir',\n    describe: 'Set output directory path',\n    type: 'string',\n    'default': '.'\n  })\n  .option('l', {\n    alias: 'list',\n    describe: 'Listing template names'\n  })\n  .help('help')\n  .version(pkg.version)\n  .detectLocale(false)\n  .strict()\n  .wrap(null)\n  .argv;\n\n\n/**\n * Generate project\n *\n * @param {string} name generator name\n * @param {Object} options options\n */\nfunction generateProject(name, options) {\n  const dokata = new Dokata(process.env.DOKATA_TEMPLATE_DIR);\n  const generator = dokata.createGenerator(name);\n  if (generator === null) {\n    throw new Error(`Does not exist generator: ${name}`);\n  }\n  inquirer.prompt(generator.config.questions, answers => {\n    generator.updateContext(answers);\n    generator.on('create:file', filepath => {\n      console.log(`${chalk.gray('file')}:\\t${chalk.bold(filepath)}`);\n    })\n    .on('create:dir', dirpath => {\n      console.log(`${chalk.gray('dir')}:\\t${chalk.bold(dirpath)}`);\n    })\n    .on('done', () => {\n      console.log(chalk.green.bold('Success!'));\n      process.exit();\n    })\n    .execute(options.outputDir);\n  });\n}\n\n\n/**\n * List generator names\n */\nfunction listGeneratorNames() {\n  if (!process.env.DOKATA_TEMPLATE_DIR) {\n    console.error(chalk.red('Please set DOKATA_TEMPLATE_DIR'));\n    process.exit(1);\n  }\n  const dokata = new Dokata(process.env.DOKATA_TEMPLATE_DIR);\n  dokata.getGeneratorConfigs().forEach(config => console.log(config.name));\n  process.exit();\n}\n\n\n/**\n * execute\n *\n * @param {string[]} args command line arguments\n * @param {Object} options command line options\n */\nfunction execute(args, options) {\n  try {\n    if (options.list) {\n      listGeneratorNames();\n    } else if (args.length > 0) {\n      generateProject(args[0], options);\n    } else {\n      throw new Error('Please set generator name');\n    }\n  } catch (e) {\n    console.error(chalk.red(e));\n    process.exit(1);\n  }\n}\n\nexecute(argv._, argv);\n"
   },
   {
     "__docId__": 1,
@@ -84,7 +84,7 @@
     "importPath": "dokata/src/cli.js",
     "importStyle": null,
     "description": "List generator names",
-    "lineNumber": 69,
+    "lineNumber": 68,
     "params": [],
     "generator": false
   },
@@ -101,7 +101,7 @@
     "importPath": "dokata/src/cli.js",
     "importStyle": null,
     "description": "execute",
-    "lineNumber": 86,
+    "lineNumber": 85,
     "params": [
       {
         "nullable": null,
@@ -137,7 +137,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import {EventEmitter} from 'events';\nimport path from 'path';\n\nimport debugModule from 'debug';\nimport ejs from 'ejs';\nimport fs from 'fs-extra';\nimport walk from 'walk';\n\nconst debug = debugModule('dokata');\nconst CONFIG_FILE_NAME = 'dokata.json';\nconst TEMPLATE_DIR_NAME = 'template';\n\n\n/**\n * Project Generator\n */\nclass Generator extends EventEmitter {\n\n  /**\n   * constructor\n   *\n   * @param {string} baseDir base directory path\n   * @param {string} outputDir output directory path\n   */\n  constructor(baseDir, outputDir) {\n    super();\n    this.baseDir = baseDir;\n    this.outputDir = outputDir;\n    this.templateDir = path.join(this.baseDir, TEMPLATE_DIR_NAME);\n    this.context = {};\n\n    this.loadConfig();\n  }\n\n  /**\n   * Generate files from settings of dokata template\n   *\n   * @param {string} outputDir output directory path\n   */\n  execute(outputDir) {\n    const walker = walk.walk(this.templateDir);\n\n    fs.mkdirs(outputDir);\n\n    walker.on('directories', (root, stats, next) => {\n      const basePath = path.relative(this.templateDir, root);\n      stats.forEach(stat => {\n        const outputPath = path.join(basePath, stat.name);\n        fs.mkdirs(path.join(outputDir, outputPath));\n        this.emit('create:dir', outputPath);\n      });\n      next();\n    });\n\n    walker.on('file', (root, stat, next) => {\n      const basePath = path.relative(this.templateDir, root);\n      const outputPath = path.join(basePath, stat.name);\n      const data = fs.readFileSync(path.resolve(root, stat.name));\n      fs.writeFileSync(\n        path.join(outputDir, outputPath),\n        ejs.render(data.toString('utf8'), this.context)\n      );\n      this.emit('create:file', outputPath);\n      next();\n    });\n\n    walker.on('errors', (root, nodeStats, next) => {\n      this.emit('error:walk', root, nodeStats);\n      next();\n    });\n\n    walker.on('end', () => {\n      this.emit('done');\n    });\n  }\n\n\n  /**\n   * Load config from dokata config file\n   */\n  loadConfig() {\n    const defaultConfig = {\n      questions: []\n    };\n    console.log(this.baseDir);\n    this.config = Object.assign(\n      {},\n      defaultConfig,\n      fs.readJsonSync(path.join(this.baseDir, CONFIG_FILE_NAME))\n    );\n  }\n\n  /**\n   * Update context\n   *\n   * @param {Object} context template context for generating files\n   */\n  updateContext(context) {\n    this.context = context;\n  }\n}\n\n\n/**\n * Project Generator\n */\nexport default class Dokata {\n\n  /**\n   * Constructor\n   *\n   * @param {string|undefined} baseDir dokata template directory path\n   */\n  constructor(baseDir) {\n    debug('baseDir', baseDir);\n    if (baseDir !== undefined) {\n      this.baseDir = path.resolve(baseDir);\n    }\n  }\n\n  /**\n   * Get list of generator config data\n   *\n   * @return {Object[]}\n   */\n  getGeneratorConfigs() {\n    if (!this.baseDir) {\n      return [];\n    }\n    return fs.readdirSync(this.baseDir).map(filename => {\n      const fp = path.join(this.baseDir, filename);\n      if (!fs.statSync(fp).isDirectory()) {\n        return null;\n      }\n      if (!fs.existsSync(path.join(fp, 'dokata.json'))) {\n        return null;\n      }\n      return {\n        path: fp,\n        name: filename\n      };\n    });\n  }\n\n  /**\n   * Create Generator\n   *\n   * @param {string} name generator name\n   * @return {Generator|null}\n   */\n  createGenerator(name) {\n    if (this.isPath(name)) {\n      return new Generator(path.resolve(name), path.basename(name));\n    }\n    const config = this.getGeneratorConfigs().find(c => {\n      return c.name === name;\n    });\n    if (config) {\n      return new Generator(config.name, config.path);\n    }\n    return null;\n  }\n\n  /**\n   * isPath\n   *\n   * @param {string} name generator name\n   * @return {boolean}\n   */\n  isPath(name) {\n    return /^(?:\\.\\.?|\\~|)\\//.test(name);\n  }\n}\n\n\nexport {Dokata, Generator};\n"
+    "content": "import {EventEmitter} from 'events';\nimport path from 'path';\n\nimport debugModule from 'debug';\nimport ejs from 'ejs';\nimport fs from 'fs-extra';\nimport walk from 'walk';\n\nconst debug = debugModule('dokata');\nconst CONFIG_FILE_NAME = 'dokata.json';\nconst TEMPLATE_DIR_NAME = 'template';\n\n\n/**\n * Project Generator\n */\nclass Generator extends EventEmitter {\n\n  /**\n   * constructor\n   *\n   * @param {string} baseDir base directory path\n   */\n  constructor(baseDir) {\n    super();\n    this.baseDir = baseDir;\n    this.templateDir = path.join(this.baseDir, TEMPLATE_DIR_NAME);\n    this.context = {};\n\n    this.loadConfig();\n  }\n\n  /**\n   * Generate files from settings of dokata template\n   *\n   * @param {string} outputDir output directory path\n   */\n  execute(outputDir) {\n    const walker = walk.walk(this.templateDir);\n\n    fs.mkdirs(outputDir);\n\n    walker.on('directories', (root, stats, next) => {\n      const basePath = path.relative(this.templateDir, root);\n      stats.forEach(stat => {\n        const outputPath = path.join(basePath, stat.name);\n        fs.mkdirs(path.join(outputDir, outputPath));\n        this.emit('create:dir', outputPath);\n      });\n      next();\n    });\n\n    walker.on('file', (root, stat, next) => {\n      const basePath = path.relative(this.templateDir, root);\n      const outputPath = path.join(basePath, stat.name);\n      const data = fs.readFileSync(path.resolve(root, stat.name));\n      fs.writeFileSync(\n        path.join(outputDir, outputPath),\n        ejs.render(data.toString('utf8'), this.context)\n      );\n      this.emit('create:file', outputPath);\n      next();\n    });\n\n    walker.on('errors', (root, nodeStats, next) => {\n      this.emit('error:walk', root, nodeStats);\n      next();\n    });\n\n    walker.on('end', () => {\n      this.emit('done');\n    });\n  }\n\n\n  /**\n   * Load config from dokata config file\n   */\n  loadConfig() {\n    const defaultConfig = {\n      questions: []\n    };\n    this.config = Object.assign(\n      {},\n      defaultConfig,\n      fs.readJsonSync(path.join(this.baseDir, CONFIG_FILE_NAME))\n    );\n  }\n\n  /**\n   * Update context\n   *\n   * @param {Object} context template context for generating files\n   */\n  updateContext(context) {\n    this.context = context;\n  }\n}\n\n\n/**\n * Project Generator\n */\nexport default class Dokata {\n\n  /**\n   * Constructor\n   *\n   * @param {string|undefined} baseDir dokata template directory path\n   */\n  constructor(baseDir) {\n    debug('baseDir', baseDir);\n    if (baseDir !== undefined) {\n      this.baseDir = path.resolve(baseDir);\n    }\n  }\n\n  /**\n   * Get list of generator config data\n   *\n   * @return {Object[]}\n   */\n  getGeneratorConfigs() {\n    if (!this.baseDir) {\n      return [];\n    }\n    return fs.readdirSync(this.baseDir).map(filename => {\n      const fp = path.join(this.baseDir, filename);\n      if (!fs.statSync(fp).isDirectory()) {\n        return null;\n      }\n      if (!fs.existsSync(path.join(fp, 'dokata.json'))) {\n        return null;\n      }\n      return {\n        path: fp,\n        name: filename\n      };\n    }).filter(c => c !== null);\n  }\n\n  /**\n   * Create Generator\n   *\n   * @param {string} name generator name\n   * @return {Generator|null}\n   */\n  createGenerator(name) {\n    if (this.isPath(name)) {\n      return new Generator(path.resolve(name));\n    }\n    const config = this.getGeneratorConfigs().find(c => {\n      return c.name === name;\n    });\n    if (config) {\n      return new Generator(config.path);\n    }\n    return null;\n  }\n\n  /**\n   * isPath\n   *\n   * @param {string} name generator name\n   * @return {boolean}\n   */\n  isPath(name) {\n    return /^(?:\\.\\.?|\\~|)\\//.test(name);\n  }\n}\n\n\nexport {Dokata, Generator};\n"
   },
   {
     "__docId__": 6,
@@ -215,7 +215,7 @@
     "importPath": "dokata/src/index.js",
     "importStyle": "Dokata",
     "description": "Project Generator",
-    "lineNumber": 107,
+    "lineNumber": 104,
     "interface": false
   },
   {
@@ -228,7 +228,7 @@
     "longname": "src/index.js~Dokata#constructor",
     "access": null,
     "description": "Constructor",
-    "lineNumber": 114,
+    "lineNumber": 111,
     "params": [
       {
         "nullable": null,
@@ -254,7 +254,7 @@
     "longname": "src/index.js~Dokata#baseDir",
     "access": null,
     "description": null,
-    "lineNumber": 117,
+    "lineNumber": 114,
     "undocument": true,
     "type": {
       "types": [
@@ -272,7 +272,7 @@
     "longname": "src/index.js~Dokata#getGeneratorConfigs",
     "access": null,
     "description": "Get list of generator config data",
-    "lineNumber": 126,
+    "lineNumber": 123,
     "params": [],
     "return": {
       "nullable": null,
@@ -294,7 +294,7 @@
     "longname": "src/index.js~Dokata#createGenerator",
     "access": null,
     "description": "Create Generator",
-    "lineNumber": 151,
+    "lineNumber": 148,
     "params": [
       {
         "nullable": null,
@@ -328,7 +328,7 @@
     "longname": "src/index.js~Dokata#isPath",
     "access": null,
     "description": "isPath",
-    "lineNumber": 170,
+    "lineNumber": 167,
     "params": [
       {
         "nullable": null,
@@ -380,7 +380,7 @@
     "longname": "src/index.js~Generator#constructor",
     "access": null,
     "description": "constructor",
-    "lineNumber": 25,
+    "lineNumber": 24,
     "params": [
       {
         "nullable": null,
@@ -391,16 +391,6 @@
         "optional": false,
         "name": "baseDir",
         "description": "base directory path"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "string"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "outputDir",
-        "description": "output directory path"
       }
     ],
     "generator": false
@@ -415,7 +405,7 @@
     "longname": "src/index.js~Generator#baseDir",
     "access": null,
     "description": null,
-    "lineNumber": 27,
+    "lineNumber": 26,
     "undocument": true,
     "type": {
       "types": [
@@ -428,12 +418,12 @@
     "kind": "member",
     "static": false,
     "variation": null,
-    "name": "outputDir",
+    "name": "templateDir",
     "memberof": "src/index.js~Generator",
-    "longname": "src/index.js~Generator#outputDir",
+    "longname": "src/index.js~Generator#templateDir",
     "access": null,
     "description": null,
-    "lineNumber": 28,
+    "lineNumber": 27,
     "undocument": true,
     "type": {
       "types": [
@@ -446,12 +436,12 @@
     "kind": "member",
     "static": false,
     "variation": null,
-    "name": "templateDir",
+    "name": "context",
     "memberof": "src/index.js~Generator",
-    "longname": "src/index.js~Generator#templateDir",
+    "longname": "src/index.js~Generator#context",
     "access": null,
     "description": null,
-    "lineNumber": 29,
+    "lineNumber": 28,
     "undocument": true,
     "type": {
       "types": [
@@ -461,24 +451,6 @@
   },
   {
     "__docId__": 20,
-    "kind": "member",
-    "static": false,
-    "variation": null,
-    "name": "context",
-    "memberof": "src/index.js~Generator",
-    "longname": "src/index.js~Generator#context",
-    "access": null,
-    "description": null,
-    "lineNumber": 30,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 21,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -487,7 +459,7 @@
     "longname": "src/index.js~Generator#execute",
     "access": null,
     "description": "Generate files from settings of dokata template",
-    "lineNumber": 40,
+    "lineNumber": 38,
     "params": [
       {
         "nullable": null,
@@ -503,7 +475,7 @@
     "generator": false
   },
   {
-    "__docId__": 22,
+    "__docId__": 21,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -512,12 +484,12 @@
     "longname": "src/index.js~Generator#loadConfig",
     "access": null,
     "description": "Load config from dokata config file",
-    "lineNumber": 81,
+    "lineNumber": 79,
     "params": [],
     "generator": false
   },
   {
-    "__docId__": 23,
+    "__docId__": 22,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -526,7 +498,7 @@
     "longname": "src/index.js~Generator#config",
     "access": null,
     "description": null,
-    "lineNumber": 86,
+    "lineNumber": 83,
     "undocument": true,
     "type": {
       "types": [
@@ -535,7 +507,7 @@
     }
   },
   {
-    "__docId__": 24,
+    "__docId__": 23,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -544,7 +516,7 @@
     "longname": "src/index.js~Generator#updateContext",
     "access": null,
     "description": "Update context",
-    "lineNumber": 98,
+    "lineNumber": 95,
     "params": [
       {
         "nullable": null,
@@ -560,7 +532,7 @@
     "generator": false
   },
   {
-    "__docId__": 25,
+    "__docId__": 24,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -569,7 +541,7 @@
     "longname": "src/index.js~Generator#context",
     "access": null,
     "description": null,
-    "lineNumber": 99,
+    "lineNumber": 96,
     "undocument": true,
     "type": {
       "types": [
@@ -578,7 +550,7 @@
     }
   },
   {
-    "__docId__": 27,
+    "__docId__": 26,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -591,7 +563,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 28,
+    "__docId__": 27,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -604,7 +576,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 29,
+    "__docId__": 28,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -617,7 +589,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 30,
+    "__docId__": 29,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -630,7 +602,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 31,
+    "__docId__": 30,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -643,7 +615,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 32,
+    "__docId__": 31,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -656,7 +628,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 33,
+    "__docId__": 32,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -669,7 +641,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 34,
+    "__docId__": 33,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -682,7 +654,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 35,
+    "__docId__": 34,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -695,7 +667,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 36,
+    "__docId__": 35,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -708,7 +680,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 37,
+    "__docId__": 36,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -721,7 +693,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 38,
+    "__docId__": 37,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -734,7 +706,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 39,
+    "__docId__": 38,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -747,7 +719,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 40,
+    "__docId__": 39,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -760,7 +732,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 41,
+    "__docId__": 40,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -773,7 +745,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 42,
+    "__docId__": 41,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -786,7 +758,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 43,
+    "__docId__": 42,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -799,7 +771,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 44,
+    "__docId__": 43,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -812,7 +784,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 45,
+    "__docId__": 44,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -825,7 +797,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 46,
+    "__docId__": 45,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -838,7 +810,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 47,
+    "__docId__": 46,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -851,7 +823,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 48,
+    "__docId__": 47,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -864,7 +836,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 49,
+    "__docId__": 48,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -877,7 +849,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 50,
+    "__docId__": 49,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -890,7 +862,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 51,
+    "__docId__": 50,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -903,7 +875,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 52,
+    "__docId__": 51,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -916,7 +888,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 53,
+    "__docId__": 52,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -929,7 +901,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 54,
+    "__docId__": 53,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -942,7 +914,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 55,
+    "__docId__": 54,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -955,7 +927,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 56,
+    "__docId__": 55,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -968,7 +940,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 57,
+    "__docId__": 56,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -981,7 +953,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 58,
+    "__docId__": 57,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -994,7 +966,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 59,
+    "__docId__": 58,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1007,7 +979,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 60,
+    "__docId__": 59,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1020,7 +992,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 61,
+    "__docId__": 60,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1033,7 +1005,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 62,
+    "__docId__": 61,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1046,7 +1018,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 63,
+    "__docId__": 62,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1059,7 +1031,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 64,
+    "__docId__": 63,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1072,7 +1044,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 65,
+    "__docId__": 64,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1085,7 +1057,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 66,
+    "__docId__": 65,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1098,7 +1070,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 67,
+    "__docId__": 66,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1111,7 +1083,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 67,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1124,7 +1096,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 69,
+    "__docId__": 68,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1137,7 +1109,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 70,
+    "__docId__": 69,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1150,7 +1122,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 71,
+    "__docId__": 70,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1163,7 +1135,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 72,
+    "__docId__": 71,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1176,7 +1148,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 73,
+    "__docId__": 72,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1189,7 +1161,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 75,
+    "__docId__": 74,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1202,7 +1174,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 76,
+    "__docId__": 75,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1215,7 +1187,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 77,
+    "__docId__": 76,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1228,7 +1200,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 78,
+    "__docId__": 77,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1241,7 +1213,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 79,
+    "__docId__": 78,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1254,7 +1226,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 80,
+    "__docId__": 79,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -1267,7 +1239,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 81,
+    "__docId__": 80,
     "kind": "external",
     "static": true,
     "variation": null,

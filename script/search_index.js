@@ -414,12 +414,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/index.js~generator#outputdir",
-    "class/src/index.js~Generator.html#instance-member-outputDir",
-    "src/index.js~Generator#outputDir",
-    "member"
-  ],
-  [
     "src/index.js~generator#templatedir",
     "class/src/index.js~Generator.html#instance-member-templateDir",
     "src/index.js~Generator#templateDir",
