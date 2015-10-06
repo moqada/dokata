@@ -1,0 +1,58 @@
+{
+  "name": "dokata",
+  "description": "Project boilerplate generator",
+  "version": "0.1.0",
+  "author": "moqada <moqada@gmail.com>",
+  "bin": {
+    "dokata": "lib/cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/moqada/dokata/issues"
+  },
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "debug": "^2.2.0",
+    "ejs": "^2.3.4",
+    "fs-extra": "^0.24.0",
+    "inquirer": "^0.10.1",
+    "update-notifier": "^0.5.0",
+    "walk": "^2.3.9",
+    "yargs": "^3.26.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "babel-runtime": "^5.8.25",
+    "esdoc": "^0.4.0",
+    "eslint": "^1.6.0",
+    "eslint-config-moqada": "^5.0.0",
+    "gh-pages": "^0.4.0"
+  },
+  "files": [
+    "lib"
+  ],
+  "homepage": "https://github.com/moqada/dokata#readme",
+  "keywords": [
+    "cli",
+    "console",
+    "generator",
+    "project",
+    "terminal"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moqada/dokata.git"
+  },
+  "scripts": {
+    "build": "babel --out-dir=lib src",
+    "deploy": "npm run esdoc && gh-pages -d docs",
+    "esdoc": "esdoc -c esdoc.json",
+    "example": "cd example && npm install && npm run dokata -- --help",
+    "lint": "eslint src",
+    "prebuild": "rm -rf lib",
+    "prepublish": "git diff --exit-code && npm run --if-present build",
+    "test": "npm run lint & npm run build && npm run example",
+    "watch": "babel --out-dir=lib --watch src"
+  }
+}

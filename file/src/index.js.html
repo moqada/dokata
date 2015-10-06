@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/index.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+</head>
+<body class="layout-container">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/moqada/dokata.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~Dokata.html">Dokata</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~Generator.html">Generator</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {EventEmitter} from &apos;events&apos;;
+import path from &apos;path&apos;;
+
+import debugModule from &apos;debug&apos;;
+import ejs from &apos;ejs&apos;;
+import fs from &apos;fs-extra&apos;;
+import walk from &apos;walk&apos;;
+
+const debug = debugModule(&apos;dokata&apos;);
+const CONFIG_FILE_NAME = &apos;dokata.json&apos;;
+const TEMPLATE_DIR_NAME = &apos;template&apos;;
+
+
+/**
+ * Project Generator
+ */
+class Generator extends EventEmitter {
+
+  /**
+   * constructor
+   *
+   * @param {string} baseDir base directory path
+   * @param {string} outputDir output directory path
+   */
+  constructor(baseDir, outputDir) {
+    super();
+    this.baseDir = baseDir;
+    this.outputDir = outputDir;
+    this.templateDir = path.join(this.baseDir, TEMPLATE_DIR_NAME);
+    this.context = {};
+
+    this.loadConfig();
+  }
+
+  /**
+   * Generate files from settings of dokata template
+   *
+   * @param {string} outputDir output directory path
+   */
+  execute(outputDir) {
+    const walker = walk.walk(this.templateDir);
+
+    fs.mkdirs(outputDir);
+
+    walker.on(&apos;directories&apos;, (root, stats, next) =&gt; {
+      const basePath = path.relative(this.templateDir, root);
+      stats.forEach(stat =&gt; {
+        const outputPath = path.join(basePath, stat.name);
+        fs.mkdirs(path.join(outputDir, outputPath));
+        this.emit(&apos;create:dir&apos;, outputPath);
+      });
+      next();
+    });
+
+    walker.on(&apos;file&apos;, (root, stat, next) =&gt; {
+      const basePath = path.relative(this.templateDir, root);
+      const outputPath = path.join(basePath, stat.name);
+      const data = fs.readFileSync(path.resolve(root, stat.name));
+      fs.writeFileSync(
+        path.join(outputDir, outputPath),
+        ejs.render(data.toString(&apos;utf8&apos;), this.context)
+      );
+      this.emit(&apos;create:file&apos;, outputPath);
+      next();
+    });
+
+    walker.on(&apos;errors&apos;, (root, nodeStats, next) =&gt; {
+      this.emit(&apos;error:walk&apos;, root, nodeStats);
+      next();
+    });
+
+    walker.on(&apos;end&apos;, () =&gt; {
+      this.emit(&apos;done&apos;);
+    });
+  }
+
+
+  /**
+   * Load config from dokata config file
+   */
+  loadConfig() {
+    const defaultConfig = {
+      questions: []
+    };
+    console.log(this.baseDir);
+    this.config = Object.assign(
+      {},
+      defaultConfig,
+      fs.readJsonSync(path.join(this.baseDir, CONFIG_FILE_NAME))
+    );
+  }
+
+  /**
+   * Update context
+   *
+   * @param {Object} context template context for generating files
+   */
+  updateContext(context) {
+    this.context = context;
+  }
+}
+
+
+/**
+ * Project Generator
+ */
+export default class Dokata {
+
+  /**
+   * Constructor
+   *
+   * @param {string|undefined} baseDir dokata template directory path
+   */
+  constructor(baseDir) {
+    debug(&apos;baseDir&apos;, baseDir);
+    if (baseDir !== undefined) {
+      this.baseDir = path.resolve(baseDir);
+    }
+  }
+
+  /**
+   * Get list of generator config data
+   *
+   * @return {Object[]}
+   */
+  getGeneratorConfigs() {
+    if (!this.baseDir) {
+      return [];
+    }
+    return fs.readdirSync(this.baseDir).map(filename =&gt; {
+      const fp = path.join(this.baseDir, filename);
+      if (!fs.statSync(fp).isDirectory()) {
+        return null;
+      }
+      if (!fs.existsSync(path.join(fp, &apos;dokata.json&apos;))) {
+        return null;
+      }
+      return {
+        path: fp,
+        name: filename
+      };
+    });
+  }
+
+  /**
+   * Create Generator
+   *
+   * @param {string} name generator name
+   * @return {Generator|null}
+   */
+  createGenerator(name) {
+    if (this.isPath(name)) {
+      return new Generator(path.resolve(name), path.basename(name));
+    }
+    const config = this.getGeneratorConfigs().find(c =&gt; {
+      return c.name === name;
+    });
+    if (config) {
+      return new Generator(config.name, config.path);
+    }
+    return null;
+  }
+
+  /**
+   * isPath
+   *
+   * @param {string} name generator name
+   * @return {boolean}
+   */
+  isPath(name) {
+    return /^(?:\.\.?|\~|)\//.test(name);
+  }
+}
+
+
+export {Dokata, Generator};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.0)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
