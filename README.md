@@ -20,16 +20,19 @@ npm install -g dokata
 ## Usage
 
 ```
-Usage: dokata [options] <template_path>
+Usage: dokata [options] <generator_path>
 
 Options:
   -o, --output-dir  Set output directory path  [string] [default: "."]
+  -l, --list        Listing template names
   --help            Show help  [boolean]
   --version         Show version number  [boolean]
 
 Examples:
-  dokata /path/to/template                     extract template to current dir.
-  dokata -o /path/to/output /path/to/template  extract template to output dir.
+  dokata /path/to/generator                     extract template to current dir.
+  dokata -o /path/to/output /path/to/generator  extract template to output dir.
+  dokata generator_name                         extract template to current dir (MUST: $DOKATA_TEMPLATE_DIR).
+  dokata -l                                     Listing template names (MUST: $DOKATA_TEMPLATE_DIR).
 ```
 
 
