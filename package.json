@@ -22,8 +22,10 @@
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-runtime": "^5.8.25",
+    "esdoc": "^0.4.0",
     "eslint": "^1.6.0",
-    "eslint-config-moqada": "^5.0.0"
+    "eslint-config-moqada": "^5.0.0",
+    "gh-pages": "^0.4.0"
   },
   "files": [
     "lib"
@@ -43,9 +45,12 @@
     "url": "https://github.com/moqada/dokata.git"
   },
   "scripts": {
-    "build": "rm -rf lib && babel --out-dir=lib src",
+    "build": "babel --out-dir=lib src",
+    "deploy": "npm run esdoc && gh-pages -d docs",
+    "esdoc": "esdoc -c esdoc.json",
     "example": "cd example && npm install && npm run dokata -- --help",
     "lint": "eslint src",
+    "prebuild": "rm -rf lib",
     "prepublish": "git diff --exit-code && npm run --if-present build",
     "test": "npm run lint & npm run build && npm run example",
     "watch": "babel --out-dir=lib --watch src"
