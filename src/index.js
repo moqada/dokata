@@ -14,39 +14,39 @@ const TEMPLATE_DIR_NAME = 'template';
 /**
  * Project Generator
  */
-export default class Dokata extends EventEmitter {
+class Generator extends EventEmitter {
 
   /**
-   * Constructor
+   * constructor
    *
-   * @param {string} baseDir dokata template directory path
-   * @param {Object} options options
+   * @param {string} baseDir base directory path
+   * @param {string} outputDir output directory path
    */
-  constructor(baseDir, options) {
+  constructor(baseDir, outputDir) {
     super();
-    debug('baseDir', baseDir);
-    debug('options', options);
     this.baseDir = baseDir;
-    this.templateDir = path.join(baseDir, TEMPLATE_DIR_NAME);
-    this.outputDir = path.resolve(options.outputDir);
-    this.context = options.context || {};
-    this.options = options;
+    this.outputDir = outputDir;
+    this.templateDir = path.join(this.baseDir, TEMPLATE_DIR_NAME);
+    this.context = {};
+
     this.loadConfig();
   }
 
   /**
    * Generate files from settings of dokata template
+   *
+   * @param {string} outputDir output directory path
    */
-  execute() {
+  execute(outputDir) {
     const walker = walk.walk(this.templateDir);
 
-    fs.mkdirs(this.outputDir);
+    fs.mkdirs(outputDir);
 
     walker.on('directories', (root, stats, next) => {
       const basePath = path.relative(this.templateDir, root);
       stats.forEach(stat => {
         const outputPath = path.join(basePath, stat.name);
-        fs.mkdirs(path.join(this.outputDir, outputPath));
+        fs.mkdirs(path.join(outputDir, outputPath));
         this.emit('create:dir', outputPath);
       });
       next();
@@ -57,7 +57,7 @@ export default class Dokata extends EventEmitter {
       const outputPath = path.join(basePath, stat.name);
       const data = fs.readFileSync(path.resolve(root, stat.name));
       fs.writeFileSync(
-        path.join(this.outputDir, outputPath),
+        path.join(outputDir, outputPath),
         ejs.render(data.toString('utf8'), this.context)
       );
       this.emit('create:file', outputPath);
@@ -74,6 +74,7 @@ export default class Dokata extends EventEmitter {
     });
   }
 
+
   /**
    * Load config from dokata config file
    */
@@ -81,15 +82,12 @@ export default class Dokata extends EventEmitter {
     const defaultConfig = {
       questions: []
     };
-    try {
-      this.config = Object.assign(
-        {},
-        defaultConfig,
-        fs.readJsonSync(path.join(this.baseDir, CONFIG_FILE_NAME))
-      );
-    } catch (err) {
-      this.config = Object.assign({}, defaultConfig);
-    }
+    console.log(this.baseDir);
+    this.config = Object.assign(
+      {},
+      defaultConfig,
+      fs.readJsonSync(path.join(this.baseDir, CONFIG_FILE_NAME))
+    );
   }
 
   /**
@@ -100,5 +98,79 @@ export default class Dokata extends EventEmitter {
   updateContext(context) {
     this.context = context;
   }
-
 }
+
+
+/**
+ * Project Generator
+ */
+export default class Dokata {
+
+  /**
+   * Constructor
+   *
+   * @param {string|undefined} baseDir dokata template directory path
+   */
+  constructor(baseDir) {
+    debug('baseDir', baseDir);
+    if (baseDir !== undefined) {
+      this.baseDir = path.resolve(baseDir);
+    }
+  }
+
+  /**
+   * Get list of generator config data
+   *
+   * @return {Object[]}
+   */
+  getGeneratorConfigs() {
+    if (!this.baseDir) {
+      return [];
+    }
+    return fs.readdirSync(this.baseDir).map(filename => {
+      const fp = path.join(this.baseDir, filename);
+      if (!fs.statSync(fp).isDirectory()) {
+        return null;
+      }
+      if (!fs.existsSync(path.join(fp, 'dokata.json'))) {
+        return null;
+      }
+      return {
+        path: fp,
+        name: filename
+      };
+    });
+  }
+
+  /**
+   * Create Generator
+   *
+   * @param {string} name generator name
+   * @return {Generator|null}
+   */
+  createGenerator(name) {
+    if (this.isPath(name)) {
+      return new Generator(path.resolve(name), path.basename(name));
+    }
+    const config = this.getGeneratorConfigs().find(c => {
+      return c.name === name;
+    });
+    if (config) {
+      return new Generator(config.name, config.path);
+    }
+    return null;
+  }
+
+  /**
+   * isPath
+   *
+   * @param {string} name generator name
+   * @return {boolean}
+   */
+  isPath(name) {
+    return /^(?:\.\.?|\~|)\//.test(name);
+  }
+}
+
+
+export {Dokata, Generator};

@@ -8,16 +8,21 @@ import pkg from '../package.json';
 
 const argv = yargs
   .usage('Usage: dokata [options] <template_path>')
+  .example('dokata template_name', 'extract template to current dir.')
   .example('dokata /path/to/template', 'extract template to current dir.')
   .example('dokata -o /path/to/output /path/to/template', 'extract template to output dir.')
+  .example('dokata -l', 'Listing template names.')
   .option('o', {
     alias: 'output-dir',
     describe: 'Set output directory path',
     type: 'string',
     'default': '.'
   })
+  .option('l', {
+    alias: 'list',
+    describe: 'Listing template names'
+  })
   .help('help')
-  .demand(1)
   .version(pkg.version)
   .detectLocale(false)
   .strict()
@@ -26,16 +31,21 @@ const argv = yargs
 
 
 /**
- * execute
+ * Generate project
  *
- * @param {string} baseDir dokata template path
- * @param {Object} options command line options
+ * @param {string} name generator name
+ * @param {Object} options options
  */
-function execute(baseDir, options) {
-  const dokata = new Dokata(baseDir, options);
-  inquirer.prompt(dokata.config.questions, answers => {
-    dokata.updateContext(answers);
-    dokata.on('create:file', filepath => {
+function generateProject(name, options) {
+  const dokata = new Dokata(process.env.DOKATA_TEMPLATE_DIR);
+  const generator = dokata.createGenerator(name);
+  if (generator === null) {
+    throw new Error(`Does not exist generator: ${name}`);
+  }
+  console.log(generator.config);
+  inquirer.prompt(generator.config.questions, answers => {
+    generator.updateContext(answers);
+    generator.on('create:file', filepath => {
       console.log(`${chalk.gray('file')}:\t${chalk.bold(filepath)}`);
     })
     .on('create:dir', dirpath => {
@@ -45,8 +55,44 @@ function execute(baseDir, options) {
       console.log(chalk.green.bold('Success!'));
       process.exit();
     })
-    .execute();
+    .execute(options.outputDir);
   });
 }
 
-execute(argv._[0], argv);
+
+/**
+ * List generator names
+ */
+function listGeneratorNames() {
+  if (!process.env.DOKATA_TEMPLATE_DIR) {
+    console.error(chalk.red('Please set DOKATA_TEMPLATE_DIR'));
+    process.exit(1);
+  }
+  const dokata = new Dokata(process.env.DOKATA_TEMPLATE_DIR);
+  dokata.getGeneratorConfigs().forEach(config => console.log(config.name));
+  process.exit();
+}
+
+
+/**
+ * execute
+ *
+ * @param {string[]} args command line arguments
+ * @param {Object} options command line options
+ */
+function execute(args, options) {
+  try {
+    if (options.list) {
+      listGeneratorNames();
+    } else if (args.length > 0) {
+      generateProject(args[0], options);
+    } else {
+      throw new Error('Please set generator name');
+    }
+  } catch (e) {
+    console.error(chalk.red(e));
+    process.exit(1);
+  }
+}
+
+execute(argv._, argv);
