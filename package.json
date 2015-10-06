@@ -1,7 +1,7 @@
 {
   "name": "dokata",
   "description": "Project boilerplate generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "moqada <moqada@gmail.com>",
   "bin": {
     "dokata": "lib/cli.js"
