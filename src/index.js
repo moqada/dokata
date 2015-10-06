@@ -82,7 +82,6 @@ class Generator extends EventEmitter {
     const defaultConfig = {
       questions: []
     };
-    console.log(this.baseDir);
     this.config = Object.assign(
       {},
       defaultConfig,

@@ -45,7 +45,6 @@ function generateProject(name, options) {
   if (generator === null) {
     throw new Error(`Does not exist generator: ${name}`);
   }
-  console.log(generator.config);
   inquirer.prompt(generator.config.questions, answers => {
     generator.updateContext(answers);
     generator.on('create:file', filepath => {
