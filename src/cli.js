@@ -7,11 +7,11 @@ import Dokata from './';
 import pkg from '../package.json';
 
 const argv = yargs
-  .usage('Usage: dokata [options] <template_path>')
-  .example('dokata template_name', 'extract template to current dir.')
-  .example('dokata /path/to/template', 'extract template to current dir.')
-  .example('dokata -o /path/to/output /path/to/template', 'extract template to output dir.')
-  .example('dokata -l', 'Listing template names.')
+  .usage('Usage: dokata [options] <generator_path>')
+  .example('dokata /path/to/generator', 'extract template to current dir.')
+  .example('dokata -o /path/to/output /path/to/generator', 'extract template to output dir.')
+  .example('dokata generator_name', 'extract template to current dir (MUST: $DOKATA_TEMPLATE_DIR).')
+  .example('dokata -l', 'Listing template names (MUST: $DOKATA_TEMPLATE_DIR).')
   .option('o', {
     alias: 'output-dir',
     describe: 'Set output directory path',
