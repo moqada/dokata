@@ -35,6 +35,10 @@ Examples:
   dokata -l                                     Listing template names (MUST: $DOKATA_TEMPLATE_DIR).
 ```
 
+## Example
+
+- [moqada/dokata-generator-npm](https://github.com/moqada/dokata-generator-npm) - Boilerplate for npm module
+
 
 [npm-url]: https://www.npmjs.com/package/dokata
 [npm-image]: https://img.shields.io/npm/v/dokata.svg?style=flat-square
