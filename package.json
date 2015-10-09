@@ -25,7 +25,8 @@
     "esdoc": "^0.4.0",
     "eslint": "^1.6.0",
     "eslint-config-moqada": "^5.0.0",
-    "gh-pages": "^0.4.0"
+    "gh-pages": "^0.4.0",
+    "npm-run-all": "^1.2.11"
   },
   "files": [
     "lib"
@@ -46,13 +47,14 @@
   },
   "scripts": {
     "build": "babel --out-dir=lib src",
-    "deploy": "npm run esdoc && gh-pages -d docs",
-    "esdoc": "esdoc -c esdoc.json",
+    "deploy": "npm-run-all doc gh-pages",
+    "doc": "esdoc -c esdoc.json",
+    "gh-pages": "gh-pages -d doc",
     "example": "cd example && npm install && npm run dokata -- --help",
     "lint": "eslint src",
     "prebuild": "rm -rf lib",
     "prepublish": "git diff --exit-code && npm run --if-present build",
-    "test": "npm run lint & npm run build && npm run example",
+    "test": "npm-run-all lint build example",
     "watch": "babel --out-dir=lib --watch src"
   }
 }
