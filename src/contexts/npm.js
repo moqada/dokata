@@ -21,6 +21,12 @@ export default function npm() {
   });
 }
 
+/**
+ * Return npm context
+ *
+ * @param {Object} config loaded npmconf config object
+ * @return {Object}
+ */
 export function getContext(config) {
   const author = getAuthor(config);
   return {
