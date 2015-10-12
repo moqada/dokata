@@ -41,13 +41,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Generator} from &apos;<span><a href="file/src/index.js.html#lineNumber17">dokata/src/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Generator from &apos;<span><a href="file/src/Generator.js.html#lineNumber16">dokata/src/Generator.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/index.js.html#lineNumber17">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/Generator.js.html#lineNumber16">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -57,7 +57,7 @@
 
   
   
-  <div class="flat-list" data-ice="extendsChain"><h4>Extends:</h4><div><span>events~EventEmitter</span> &#x2192; Generator</div></div>
+  
   
   
   
@@ -67,8 +67,7 @@
 
   
   
-  <div class="description" data-ice="description"><p>Project Generator</p>
-</div>
+  
 
   
 
@@ -96,13 +95,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/index.js~Generator.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(baseDir: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
+           <span data-ice="name"><span><a href="class/src/Generator.js~Generator.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(baseDir: <span>*</span>, objectPattern1: {&quot;output&quot;: <span>*</span>})</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description">constructor</div>
+        
       </div>
     </td>
     <td>
@@ -128,7 +127,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/index.js~Generator.html#instance-member-baseDir">baseDir</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/src/Generator.js~Generator.html#instance-member-baseDir">baseDir</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -153,7 +152,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/index.js~Generator.html#instance-member-config">config</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/src/Generator.js~Generator.html#instance-member-config">config</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -178,7 +177,7 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/index.js~Generator.html#instance-member-context">context</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/src/Generator.js~Generator.html#instance-member-outputDir">outputDir</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -203,7 +202,32 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/index.js~Generator.html#instance-member-templateDir">templateDir</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/src/Generator.js~Generator.html#instance-member-outputName">outputName</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/src/Generator.js~Generator.html#instance-member-templateDir">templateDir</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
@@ -235,13 +259,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/index.js~Generator.html#instance-method-execute">execute</a></span></span><span data-ice="signature">(outputDir: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
+           <span data-ice="name"><span><a href="class/src/Generator.js~Generator.html#instance-method-execute">execute</a></span></span><span data-ice="signature">()</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description">Generate files from settings of dokata template</div>
+        
       </div>
     </td>
     <td>
@@ -260,38 +284,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/index.js~Generator.html#instance-method-loadConfig">loadConfig</a></span></span><span data-ice="signature">()</span>
+           <span data-ice="name"><span><a href="class/src/Generator.js~Generator.html#instance-method-loadConfig">loadConfig</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
         </p>
       </div>
       <div>
         
         
         <div data-ice="description">Load config from dokata config file</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-           <span data-ice="name"><span><a href="class/src/index.js~Generator.html#instance-method-updateContext">updateContext</a></span></span><span data-ice="signature">(context: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description">Update context</div>
       </div>
     </td>
     <td>
@@ -316,19 +315,18 @@
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(baseDir: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
+    <span data-ice="name">constructor</span><span data-ice="signature">(baseDir: <span>*</span>, objectPattern1: {&quot;output&quot;: <span>*</span>})</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber24">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/Generator.js.html#lineNumber18">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>constructor</p>
-</div>
+  
 
   
 
@@ -342,10 +340,16 @@
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">baseDir</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="type"><span>*</span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>base directory path</p>
-</td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">objectPattern1</td>
+      <td data-ice="type">{&quot;output&quot;: <span>*</span>}</td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: {}</li></ul></td>
+      <td data-ice="description"></td>
     </tr>
 </tbody>
   </table>
@@ -381,7 +385,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/Generator.js.html#lineNumber19">source</a></span></span>
     </span>
   </h3>
 
@@ -421,7 +425,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber83">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/Generator.js.html#lineNumber23">source</a></span></span>
     </span>
   </h3>
 
@@ -451,17 +455,57 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-context">
+  <h3 data-ice="anchor" id="instance-member-outputDir">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">context</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">outputDir</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber28">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/Generator.js.html#lineNumber21">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-outputName">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">outputName</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/Generator.js.html#lineNumber22">source</a></span></span>
     </span>
   </h3>
 
@@ -501,7 +545,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber27">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/Generator.js.html#lineNumber20">source</a></span></span>
     </span>
   </h3>
 
@@ -540,40 +584,22 @@
     
     
     
-    <span data-ice="name">execute</span><span data-ice="signature">(outputDir: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
+    <span data-ice="name">execute</span><span data-ice="signature">()</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber38">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/Generator.js.html#lineNumber26">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Generate files from settings of dokata template</p>
-</div>
+  
 
   
 
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">outputDir</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>output directory path</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
+  <div data-ice="properties">
 </div>
 
   
@@ -598,11 +624,11 @@
     
     
     
-    <span data-ice="name">loadConfig</span><span data-ice="signature">()</span>
+    <span data-ice="name">loadConfig</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber79">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/Generator.js.html#lineNumber37">source</a></span></span>
     </span>
   </h3>
 
@@ -617,65 +643,17 @@
   <div data-ice="properties">
 </div>
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tr>
+        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+        
+      </tr>
+    </table>
+    <div data-ice="returnProperties">
 </div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-updateContext">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">updateContext</span><span data-ice="signature">(context: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber95">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Update context</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">context</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>template context for generating files</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  
+  </div>
 
   
 

@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">API Document</title>
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/Generator.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -40,36 +40,63 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="dokata">dokata</h1>
-<p><a href="https://www.npmjs.com/package/dokata"><img src="https://img.shields.io/npm/v/dokata.svg?style=flat-square" alt="NPM version"></a>
-<a href="https://www.npmjs.com/package/dokata"><img src="https://img.shields.io/npm/dt/dokata.svg?style=flat-square" alt="NPM downloads"></a>
-<a href="https://travis-ci.org/moqada/dokata"><img src="https://img.shields.io/travis/moqada/dokata.svg?style=flat-square" alt="Build Status"></a>
-<a href="https://david-dm.org/moqada/dokata"><img src="https://img.shields.io/david/moqada/dokata.svg?style=flat-square" alt="Dependency Status"></a>
-<a href="https://david-dm.org/moqada/dokata#info=devDependencies"><img src="https://img.shields.io/david/dev/moqada/dokata.svg?style=flat-square" alt="DevDependency Status"></a>
-<a href="http://opensource.org/licenses/MIT"><img src="https://img.shields.io/npm/l/dokata.svg?style=flat-square" alt="License"></a></p>
-<p>Project boilerplate generator.</p>
-<p>It is <strong>UNDER DEVELOPMENT</strong>.</p>
-<h2 id="installation">Installation</h2>
-<pre><code><code class="source-code prettyprint">npm install -g dokata</code>
-</code></pre><h2 id="usage">Usage</h2>
-<pre><code><code class="source-code prettyprint">Usage: dokata [options] &lt;generator_path&gt;
+<div class="content" data-ice="content"><h1 data-ice="title">src/Generator.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import path from &apos;path&apos;;
 
-Options:
-  -o, --output-dir  Set output directory path  [string] [default: &quot;.&quot;]
-  -l, --list        Listing template names
-  --help            Show help  [boolean]
-  --version         Show version number  [boolean]
+import fs from &apos;fs-extra&apos;;
+import mapStream from &apos;map-stream&apos;;
+import vFs from &apos;vinyl-fs&apos;;
 
-Examples:
-  dokata /path/to/generator                     extract template to current dir.
-  dokata -o /path/to/output /path/to/generator  extract template to output dir.
-  dokata generator_name                         extract template to current dir (MUST: $DOKATA_TEMPLATE_DIR).
-  dokata -l                                     Listing template names (MUST: $DOKATA_TEMPLATE_DIR).</code>
-</code></pre><h2 id="example">Example</h2>
-<ul>
-<li><a href="https://github.com/moqada/dokata-generator-npm">moqada/dokata-generator-npm</a> - Boilerplate for npm module</li>
-</ul>
-</div>
+const CONFIG_FILE_NAME = &apos;dokata.json&apos;;
+const TEMPLATE_DIR_NAME = &apos;template&apos;;
+
+function log(file, cb) {
+  console.log(file.path);
+  cb(null, file);
+}
+
+
+export default class Generator {
+
+  constructor(baseDir, {output = &apos;./&apos;} = {}) {
+    this.baseDir = baseDir;
+    this.templateDir = path.join(this.baseDir, TEMPLATE_DIR_NAME);
+    this.outputDir = path.resolve(output);
+    this.outputName = path.basename(this.outputDir);
+    this.config = this.loadConfig();
+  }
+
+  execute() {
+    vFs.src(path.join(this.templateDir, &apos;**/*&apos;))
+      .pipe(mapStream(log))
+      .pipe(vFs.dest(this.outputDir));
+  }
+
+  /**
+   * Load config from dokata config file
+   *
+   * @return {Object}
+   */
+  loadConfig() {
+    const defaultConfig = {
+      context: {},
+      questions: [],
+      postProcess: []
+    };
+    return Object.assign(
+      {},
+      defaultConfig,
+      fs.readJsonSync(path.join(this.baseDir, CONFIG_FILE_NAME))
+    );
+  }
+}
+
+
+const gen = new Generator(path.resolve(&apos;./example/templates/dokata-template-example&apos;), {output: &apos;hoge/fuga/foo&apos;});
+gen.execute();
+console.log(gen.outputDir, gen.outputName);
+</code></pre>
+
 </div>
 
 <footer class="footer">

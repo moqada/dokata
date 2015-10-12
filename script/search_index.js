@@ -6,10 +6,28 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "dokata/src/generator.js~generator",
+    "class/src/Generator.js~Generator.html",
+    "<span>Generator</span> <span class=\"search-result-import-path\">dokata/src/Generator.js</span>",
+    "class"
+  ],
+  [
     "dokata/src/index.js~generator",
     "class/src/index.js~Generator.html",
     "<span>Generator</span> <span class=\"search-result-import-path\">dokata/src/index.js</span>",
     "class"
+  ],
+  [
+    "dokata/src/contexts/npm.js~getcontext",
+    "function/index.html#static-function-getContext",
+    "<span>getContext</span> <span class=\"search-result-import-path\">dokata/src/contexts/npm.js</span>",
+    "function"
+  ],
+  [
+    "dokata/src/contexts/npm.js~npm",
+    "function/index.html#static-function-npm",
+    "<span>npm</span> <span class=\"search-result-import-path\">dokata/src/contexts/npm.js</span>",
+    "function"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~array",
@@ -336,9 +354,69 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "src/generator.js",
+    "file/src/Generator.js.html",
+    "src/Generator.js",
+    "file"
+  ],
+  [
+    "src/generator.js~generator#basedir",
+    "class/src/Generator.js~Generator.html#instance-member-baseDir",
+    "src/Generator.js~Generator#baseDir",
+    "member"
+  ],
+  [
+    "src/generator.js~generator#config",
+    "class/src/Generator.js~Generator.html#instance-member-config",
+    "src/Generator.js~Generator#config",
+    "member"
+  ],
+  [
+    "src/generator.js~generator#constructor",
+    "class/src/Generator.js~Generator.html#instance-constructor-constructor",
+    "src/Generator.js~Generator#constructor",
+    "method"
+  ],
+  [
+    "src/generator.js~generator#execute",
+    "class/src/Generator.js~Generator.html#instance-method-execute",
+    "src/Generator.js~Generator#execute",
+    "method"
+  ],
+  [
+    "src/generator.js~generator#loadconfig",
+    "class/src/Generator.js~Generator.html#instance-method-loadConfig",
+    "src/Generator.js~Generator#loadConfig",
+    "method"
+  ],
+  [
+    "src/generator.js~generator#outputdir",
+    "class/src/Generator.js~Generator.html#instance-member-outputDir",
+    "src/Generator.js~Generator#outputDir",
+    "member"
+  ],
+  [
+    "src/generator.js~generator#outputname",
+    "class/src/Generator.js~Generator.html#instance-member-outputName",
+    "src/Generator.js~Generator#outputName",
+    "member"
+  ],
+  [
+    "src/generator.js~generator#templatedir",
+    "class/src/Generator.js~Generator.html#instance-member-templateDir",
+    "src/Generator.js~Generator#templateDir",
+    "member"
+  ],
+  [
     "src/cli.js",
     "file/src/cli.js.html",
     "src/cli.js",
+    "file"
+  ],
+  [
+    "src/contexts/npm.js",
+    "file/src/contexts/npm.js.html",
+    "src/contexts/npm.js",
     "file"
   ],
   [
