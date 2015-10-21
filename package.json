@@ -24,7 +24,7 @@
     "babel": "^5.8.23",
     "esdoc": "^0.4.0",
     "eslint": "^1.6.0",
-    "eslint-config-moqada": "^5.0.0",
+    "eslint-config-moqada": "^7.0.0",
     "gh-pages": "^0.4.0",
     "npm-run-all": "^1.2.11"
   },
