@@ -18,7 +18,7 @@
     "inquirer": "^0.12.0",
     "update-notifier": "^0.6.0",
     "walk": "^2.3.9",
-    "yargs": "^3.26.0"
+    "yargs": "^4.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.1.18",
