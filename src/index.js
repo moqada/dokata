@@ -165,7 +165,7 @@ export default class Dokata {
    * @return {boolean}
    */
   isPath(name) {
-    return /^(?:\.\.?|\~|)\//.test(name);
+    return /^(?:\.\.?|~|)\//.test(name);
   }
 }
 
