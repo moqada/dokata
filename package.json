@@ -14,7 +14,7 @@
     "chalk": "^1.1.1",
     "debug": "^2.2.0",
     "ejs": "^2.3.4",
-    "fs-extra": "^0.28.0",
+    "fs-extra": "^0.30.0",
     "inquirer": "^1.0.0",
     "update-notifier": "^0.6.0",
     "walk": "^2.3.9",
