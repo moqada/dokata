@@ -77,9 +77,7 @@ class Generator extends EventEmitter {
    * Load config from dokata config file
    */
   loadConfig() {
-    const defaultConfig = {
-      questions: []
-    };
+    const defaultConfig = {questions: []};
     this.config = Object.assign(
       {},
       defaultConfig,
