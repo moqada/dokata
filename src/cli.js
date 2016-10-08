@@ -17,9 +17,9 @@ const argv = yargs
   .example('dokata -l', 'Listing template names (MUST: $DOKATA_TEMPLATE_DIR).')
   .option('o', {
     alias: 'output-dir',
+    'default': '.',
     describe: 'Set output directory path',
-    type: 'string',
-    'default': '.'
+    type: 'string'
   })
   .option('l', {
     alias: 'list',
@@ -50,14 +50,14 @@ function generateProject(name, options) {
     generator.on('create:file', filepath => {
       console.log(`${chalk.gray('file')}:\t${chalk.bold(filepath)}`);
     })
-    .on('create:dir', dirpath => {
-      console.log(`${chalk.gray('dir')}:\t${chalk.bold(dirpath)}`);
-    })
-    .on('done', () => {
-      console.log(chalk.green.bold('Success!'));
-      process.exit();
-    })
-    .execute(options.outputDir);
+      .on('create:dir', dirpath => {
+        console.log(`${chalk.gray('dir')}:\t${chalk.bold(dirpath)}`);
+      })
+      .on('done', () => {
+        console.log(chalk.green.bold('Success!'));
+        process.exit();
+      })
+      .execute(options.outputDir);
   });
 }
 
