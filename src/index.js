@@ -131,8 +131,8 @@ export default class Dokata {
         return null;
       }
       return {
-        path: fp,
-        name: filename
+        name: filename,
+        path: fp
       };
     }).filter(c => c !== null);
   }
@@ -162,7 +162,7 @@ export default class Dokata {
    * @param {string} name generator name
    * @return {boolean}
    */
-  isPath(name) {
+  static isPath(name) {
     return /^(?:\.\.?|~|)\//.test(name);
   }
 }

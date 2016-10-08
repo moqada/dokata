@@ -45,8 +45,8 @@ export function getContext(config) {
  */
 function getAuthor(config) {
   return {
-    name: getConfigValue(config, ['init', 'author', 'name']),
     email: getConfigValue(config, ['init', 'author', 'email']),
+    name: getConfigValue(config, ['init', 'author', 'name']),
     url: getConfigValue(config, ['init', 'author', 'url'])
   };
 }
