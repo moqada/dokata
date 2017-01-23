@@ -15,7 +15,7 @@
     "debug": "^2.2.0",
     "ejs": "^2.3.4",
     "fs-extra": "^1.0.0",
-    "inquirer": "^2.0.0",
+    "inquirer": "^3.0.0",
     "npmconf": "^2.1.2",
     "update-notifier": "^1.0.0",
     "walk": "^2.3.9",
