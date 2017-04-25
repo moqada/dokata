@@ -17,7 +17,7 @@
     "fs-extra": "^2.0.0",
     "inquirer": "^3.0.1",
     "npmconf": "^2.1.2",
-    "update-notifier": "^1.0.0",
+    "update-notifier": "^2.1.0",
     "walk": "^2.3.9",
     "yargs": "^6.0.0"
   },
